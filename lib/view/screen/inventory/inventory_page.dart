@@ -21,7 +21,7 @@ class InventoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     InventoryController controller = Get.put(InventoryController());
     String word = '';
-
+    TextEditingController? optionsTextEditingController ;
     return CustomScaffoldWithBackground(
         gradient: const LinearGradient(
           colors: [
@@ -41,6 +41,15 @@ class InventoryPage extends StatelessWidget {
             ),
             child: Column(
               children: [
+    GetBuilder<InventoryController>(builder: (controller) {
+
+                    return CustomText(
+                      text: "تاريخ التحديث: ${controller.updateDate != null ?controller.updateDate.toString().split(' ')[1].split('.')[0]  + ' | ' + controller.updateDate.toString().split(' ')[0]: 'غير متوفر'}",
+                      textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: AppColors.whiteColor, fontWeight: FontWeight.bold,fontSize: 14.sp),
+                    );
+                  }
+                ),
                 CustomText(
                   text: AppLabels.inventory,
                   textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
@@ -88,7 +97,7 @@ class InventoryPage extends StatelessWidget {
                         onChanged: (String? newValue) {
                           if (newValue != null) {
                             controller.selectedInventoryId = newValue;
-                            controller.searchUsingQuery(word: word);
+                            controller.searchWord(word.trim());
                             controller.update(); // Force UI update
                           }
                         },
@@ -100,13 +109,54 @@ class InventoryPage extends StatelessWidget {
                 ),
                 GetBuilder<InventoryController>(builder: (controller) {
                   return Row(children: [
-                    Expanded(
-                      child: CustomSearchField(
-                        onChange: (text) {
-                          word = text.trim();
-                          controller.searchUsingQuery(word: word);
-                        },
-                      ),
+                    Expanded(child:
+                    Autocomplete<String>(
+                      optionsBuilder: (TextEditingValue word){
+                      if(word.text.trim().isEmpty){
+                        return const Iterable<String>.empty();
+                      }
+                      Iterable<String> its = controller.searchOptions.where((String option) {
+                        return option.toLowerCase().contains(word.text.toLowerCase().split(' ').last);
+                      });
+                      return its;
+
+                    },
+                    onSelected: (String value){
+                        String lastWord = word[word.length - 1];
+                        if( lastWord.isEmpty)
+                          word += '$value';
+                        else{
+                          List<String> words = word.split(' ');
+                          if(words.isNotEmpty){
+                            words.removeLast();
+                            words.add(value);
+                            word = words.join(' ');
+                          }
+                        }
+
+                        optionsTextEditingController!.text = word;
+                    },
+                  displayStringForOption: (String option) {
+                      return option;
+                  }
+
+                      ,fieldViewBuilder: (
+                        BuildContext context,
+                        TextEditingController textEditingController,
+                        FocusNode focusNode,
+                        VoidCallback onFieldSubmitted,
+                      ){
+                        optionsTextEditingController = textEditingController;
+                        return CustomSearchField(
+                          controller: optionsTextEditingController,
+                          focusNode: focusNode,
+                          onChange: (text) {
+                            word = text;
+                            controller.searchWord(word.trim());
+                          },
+                        );
+                      },
+                    ),
                     ),
                     const CustomSizedBox(
                       width: 5,
@@ -169,7 +219,8 @@ class InventoryPage extends StatelessWidget {
                             onPressed: () {
                               controller
                                   .pressFilterButton(AppLabels.available_quntity);
-                              controller.searchUsingQuery(word: word);
+                              controller.searchWord(word);
+
                             },
                           ),
                         ),
@@ -191,7 +242,7 @@ class InventoryPage extends StatelessWidget {
                                     fontWeight: FontWeight.bold),
                               ),
                               onPressed: () {controller.pressFilterButton(AppLabels.unit);
-                              controller.searchUsingQuery(word: word);},
+                              controller.searchWord(word);},
                             ),
                           ),*/
                         CustomSizedBox(width: 5.w),
@@ -219,7 +270,7 @@ class InventoryPage extends StatelessWidget {
                             onPressed: () {
                               controller
                                   .pressFilterButton(AppLabels.highest_quntity);
-                              controller.searchUsingQuery(word: word);
+                              controller.searchWord(word);
                             },
                           ),
                         ),
@@ -248,7 +299,7 @@ class InventoryPage extends StatelessWidget {
                             onPressed: () {
                               controller
                                   .pressFilterButton(AppLabels.smallest_quntity);
-                              controller.searchUsingQuery(word: word);
+                              controller.searchWord(word);
                             },
                           ),
                         ),
@@ -277,7 +328,7 @@ class InventoryPage extends StatelessWidget {
                             onPressed: () {
                               controller
                                   .pressFilterButton(AppLabels.highest_price);
-                              controller.searchUsingQuery(word: word);
+                              controller.searchWord(word);
                             },
                           ),
                         ),
@@ -306,7 +357,7 @@ class InventoryPage extends StatelessWidget {
                             onPressed: () {
                               controller
                                   .pressFilterButton(AppLabels.smallest_price);
-                              controller.searchUsingQuery(word: word);
+                              controller.searchWord(word);
                             },
                           ),
                         ),
@@ -329,7 +380,7 @@ class InventoryPage extends StatelessWidget {
                                   title: Text('الكل', style: Theme.of(context).textTheme.bodyMedium),
                                   onTap: () {
                                     controller.selectedUnit = 'الكل';
-                                    controller.searchUsingQuery(word: word);
+                                    controller.searchWord(word);
                                     controller.update();
                                     Get.back();
                                   },
@@ -344,7 +395,7 @@ class InventoryPage extends StatelessWidget {
                                     ),
                                     onTap: () {
                                       controller.selectedUnit = unit;
-                                      controller.searchUsingQuery(word: word);
+                                      controller.searchWord(word);
                                       controller.update();
                                       Get.back();
                                     },

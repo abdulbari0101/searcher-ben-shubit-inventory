@@ -6,6 +6,7 @@ import '../../core/constant/app_lables.dart';
 import '../../core/constant/app_pages.dart';
 
 class HomeController extends GetxController {
+  DateTime ? lastUpdate = null;
   goToPage(String page) {
     switch (page) {
       case AppLabels.tires_page_tilte:
@@ -15,7 +16,10 @@ class HomeController extends GetxController {
       //  Get.toNamed(AppPage.page_oils);
         break;
       case AppLabels.inventory_page_title:
-        Get.toNamed(AppPage.page_inventory);
+        Get.toNamed(AppPage.page_inventory,
+            arguments: {'lastUpdate': lastUpdate});
+        break;
+
 
     }
   }

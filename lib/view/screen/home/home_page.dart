@@ -4,6 +4,7 @@ import 'package:inventory/controller/home/home_controller.dart';
 import 'package:inventory/core/common/widgets/custom_scaffold.dart';
 import 'package:inventory/core/constant/app_colors.dart';
 import 'package:inventory/core/constant/app_lables.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../../../controller/update/update_database_controller.dart';
 import '../../../controller/upload/uplaod_controller.dart';
 import '../../../core/common/widgets/custom_material_button.dart';
@@ -19,8 +20,10 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     HomeController homeController = Get.put(HomeController());
-    UpdateDatabaseController updateController = Get.put(UpdateDatabaseController());
-    UploadDatabaseController uploadController = Get.put(UploadDatabaseController());
+    UpdateDatabaseController updateController =
+        Get.put(UpdateDatabaseController());
+    UploadDatabaseController uploadController =
+        Get.put(UploadDatabaseController());
     return CustomScaffoldWithBackground(
         body: Container(
       padding: const EdgeInsets.symmetric(
@@ -61,32 +64,61 @@ class HomePage extends StatelessWidget {
                     onPressed: () =>
                         homeController.goToPage(categoryList[index].title))),
           ),
-          /*const CustomSizedBox(
+          const CustomSizedBox(
             height: 20,
           ),
-          CustomMaterialButton(
+          Obx(() {
+            if (updateController.loading.value) {
+              return CircularPercentIndicator(
+                radius: 120.0,
+                lineWidth: 13.0,
+                animation: false,
+                percent: updateController.progress / 100,
+                center: new Text(
+                  "${updateController.progress}%",
+                  style: new TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 20.0),
+                ),
+                footer: new Text(
+                  "جاري تنزيل البيانات...",
+                  style: new TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 17.0),
+                ),
+                circularStrokeCap: CircularStrokeCap.round,
+                progressColor: Colors.purple,
+              );
 
-            backgroundColor: AppColors.primaryColor,
-            onPressed: ()=>updateController.updateDatabse(),
-            child: CustomText(
-              text: "تحميل بيانات المخزن من ملف خارجي",
-              textStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: AppColors.whiteColor
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),*/
+            } else {
+              return CustomMaterialButton(
+                backgroundColor: AppColors.primaryColor,
+                onPressed: () {
+                  updateController.updateDatabse();
+                   },
+                child: CustomText(
+                  text: "تحديث البيانات من الانترنت",
+                  textStyle: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(color: AppColors.whiteColor),
+                  textAlign: TextAlign.center,
+                ),
+              );
+            }
+          }),
           const CustomSizedBox(
             height: 20,
           ),
           CustomMaterialButton(
             backgroundColor: Colors.deepPurpleAccent,
-            onPressed: ()=>uploadController.goToUploadPage(),
+            onPressed: () {
+              uploadController.goToUploadPage();
+              },
             child: CustomText(
               text: "رفع بيانات المخزن من ملف Excel",
-              textStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: AppColors.whiteColor
-              ),
+              textStyle: Theme.of(context)
+                  .textTheme
+                  .titleMedium!
+                  .copyWith(color: AppColors.whiteColor),
               textAlign: TextAlign.center,
             ),
           ),
@@ -95,12 +127,14 @@ class HomePage extends StatelessWidget {
           ),
           CustomMaterialButton(
             backgroundColor: Color(0xFF4CAF50),
-            onPressed: ()=> homeController.openWebPage('https://smallpdf.com/pdf-to-excel#r=convert-to-excel'),
+            onPressed: () => homeController.openWebPage(
+                'https://smallpdf.com/pdf-to-excel#r=convert-to-excel'),
             child: CustomText(
               text: "تحويل ملف pdf إلى Excel",
-              textStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: AppColors.whiteColor
-              ),
+              textStyle: Theme.of(context)
+                  .textTheme
+                  .titleMedium!
+                  .copyWith(color: AppColors.whiteColor),
               textAlign: TextAlign.center,
             ),
           ),

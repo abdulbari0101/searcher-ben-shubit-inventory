@@ -12,8 +12,10 @@ import 'custom_svg.dart';
 import 'custom_text.dart';
 
 class CustomSearchField extends StatelessWidget {
-  const CustomSearchField({super.key, required this.onChange});
+  const CustomSearchField({super.key, required this.onChange, this.controller,  this.focusNode});
 final void Function(String) onChange;
+  final TextEditingController? controller;
+  final FocusNode? focusNode;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -49,7 +51,8 @@ final void Function(String) onChange;
                         BorderSide(width: 0.0, color: Colors.transparent),
                   ),
                 ),
-              ),
+              controller: controller,
+              focusNode: focusNode ,),
             ),
           ),
         ],

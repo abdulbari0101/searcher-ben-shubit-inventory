@@ -10,7 +10,6 @@ import '../../core/constant/app_lables.dart';
 class UploadDatabaseController extends GetxController {
   FilePickerResult? file;
   LocalDB mydb = LocalDB();
-
   goToUploadPage() async {
     //Get.toNamed(AppPage.page_uploadDatabase);
     await getExeclFile();
@@ -122,6 +121,10 @@ class UploadDatabaseController extends GetxController {
             print("respons: " + respons.toString());
             if (respons > 0) {
               updateStatus = true;
+              mydb.insertDate(
+                  "INSERT INTO ${LocalDB.LAST_UPDATE_TABLE}(${LocalDB.LAST_UPDATE})"
+                      " VALUES(\"${DateTime.now().toIso8601String()}\")"
+              );
             }
           }
         } catch (e) {
