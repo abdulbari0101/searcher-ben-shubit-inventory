@@ -14,7 +14,7 @@ class UpdateDatabaseController extends GetxController{
   RxInt progress = 0.obs;
   int totalRows = 0;
   int processedRows = 0;
-  var loading = false.obs;
+  RxBool loading = false.obs;
 
 Future<void> updateDatabse() async{
   loading.value = true;
@@ -55,15 +55,17 @@ Future<void> updateDatabse() async{
       }
 
     }else{
+      loading.value = false;
        Get.snackbar('Error', 'لا توجد بيانات لتحديث قاعدة البيانات',
            snackPosition: SnackPosition.BOTTOM,
            backgroundColor: Colors.red.withOpacity(0.8),
            colorText: Colors.white);
      }
   }catch (e){
-    Get.snackbar('Error', 'Error updating database: $e');
-  } finally{
     loading.value = false;
+    Get.snackbar("Error", "حدث خطأ أثناء تنزيل الحديثات الجديدة لان الانترنت مقطوع ",
+        snackPosition: SnackPosition.TOP,backgroundColor: Colors.red,colorText: Colors.white);
+
   }
   if(progress.value ==100){
     try{
@@ -86,9 +88,11 @@ Future<void> updateDatabse() async{
           colorText: Colors.white);
       productsList.refresh();
     }catch(e){
+  loading.value = false;
       Get.snackbar('Error', 'Error updating database: $e');
   }
     }else{
+  loading.value = false;
     Get.snackbar('Error', 'لم تكتمل عملية التحديث',
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red.withOpacity(0.8),

@@ -50,13 +50,14 @@ class UploadDatabaseController extends GetxController {
 
   loadInventoryData(var excel) async {
     bool updateStatus = false;
+    bool headerFound = false;
     int indexProId = 0,
         indexInvId = 1,
         indexProName = 2,
         indexProUtil = 3,
         indexProQuantity = 4,
         indexProPrice = 5;
-    int rowNum = 0;
+
     for (var table in excel.tables.keys) {
       for (var row in excel.tables[table].rows) {
         List<dynamic> dataRecord = [];
@@ -71,28 +72,42 @@ class UploadDatabaseController extends GetxController {
           }
         }
         try {
-          if (rowNum == 0) {
+          if (!headerFound) {
             indexProId = dataRecord.indexWhere(
-                (element) => element.toString().contains("رقم الصنف"));
+                    (element) => element.toString().contains("رقم الصنف"));
             indexInvId = dataRecord
                 .indexWhere((element) => element.toString().contains("المخزن"));
             indexProName = dataRecord.indexWhere(
-                (element) => element.toString().contains('اسم الصنف'));
+                    (element) => element.toString().contains('اسم الصنف'));
             indexProUtil = dataRecord
                 .indexWhere((element) => element.toString().contains('الوحدة'));
             indexProQuantity = dataRecord.indexWhere(
-                (element) => element.toString().contains('المتوفرة'));
+                    (element) => element.toString().contains('المتوفرة'));
             indexProPrice = dataRecord.indexWhere(
-                (element) => element.toString().contains('التكلفة'));
+                    (element) => element.toString().contains('التكلفة'));
             if ([
               indexProId,
               indexProName,
               indexProUtil,
               indexProQuantity,
               indexProPrice
-            ].contains(-1)) return false; // If any index is -1, return false
+            ].contains(-1)){
+              headerFound = false;
+              print("Header not found");
+            }else{
+              headerFound = true;
+              print("Header found");
+              print("indexProId: $indexProId");
+              print("indexInvId: $indexInvId");
+              print("indexProName: $indexProName");
+              print("indexProUtil: $indexProUtil");
+              print("indexProQuantity: $indexProQuantity");
+              print("indexProPrice: $indexProPrice");
+
+            }
+            dataRecord.clear();
           }
-          if (rowNum > 0) {
+          if (headerFound) {
             if (dataRecord.isEmpty)
               continue; // Skip empty rows
             else if (dataRecord[indexProId] == null ||
@@ -130,7 +145,6 @@ class UploadDatabaseController extends GetxController {
         } catch (e) {
           print("My Error2: $e");
         }
-        rowNum++;
         dataRecord.clear();
       }
     }

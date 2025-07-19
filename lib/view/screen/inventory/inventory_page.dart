@@ -33,18 +33,19 @@ class InventoryPage extends StatelessWidget {
           end: Alignment.bottomCenter,
         ),
         body: ListView(
+
           children: [Container(
-            height: Get.height,
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSizes.paddingSm,
-              vertical: AppSizes.paddingExLg,
+          height: Get.height,
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSizes.paddingSm,
+            vertical: AppSizes.paddingExLg,
+
             ),
             child: Column(
               children: [
     GetBuilder<InventoryController>(builder: (controller) {
-
                     return CustomText(
-                      text: "تاريخ التحديث: ${controller.updateDate != null ?controller.updateDate.toString().split(' ')[1].split('.')[0]  + ' | ' + controller.updateDate.toString().split(' ')[0]: 'غير متوفر'}",
+                      text: "تاريخ البيانات: ${controller.updateDate != null ?controller.updateDate.toString().split(' ')[1].split('.')[0]  + ' | ' + controller.updateDate.toString().split(' ')[0]: 'غير متوفر'}",
                       textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           color: AppColors.whiteColor, fontWeight: FontWeight.bold,fontSize: 14.sp),
                     );
@@ -98,7 +99,7 @@ class InventoryPage extends StatelessWidget {
                           if (newValue != null) {
                             controller.selectedInventoryId = newValue;
                             controller.searchWord(word.trim());
-                            controller.update(); // Force UI update
+                           // controller.update(); // Force UI update
                           }
                         },
                       ),);
@@ -135,6 +136,8 @@ class InventoryPage extends StatelessWidget {
                         }
 
                         optionsTextEditingController!.text = word;
+                        controller.searchWord(word.trim());
+                       // controller.update(); // Force UI update
                     },
                   displayStringForOption: (String option) {
                       return option;
@@ -431,7 +434,7 @@ class InventoryPage extends StatelessWidget {
                               InventoryRecordWidget(
                                   name: controller.inventoryList[index].name,
                                   price:
-                                  controller.inventoryList[index].price,
+                                  double.parse(controller.inventoryList[index].price?? "0").toStringAsFixed(2),
                                   quantity: controller.inventoryList[index].quantity,
                                   unit: controller.inventoryList[index].unit,
                                   onPressed: () {}))),
