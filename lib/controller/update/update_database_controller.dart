@@ -35,7 +35,7 @@ Future<void> updateDatabse() async{
       await mydb.deleteData(LocalDB.INVENTORY_TABLE);
       // Insert the new data into the local database table
       for (var product in productsList.value!) {
-        mydb.insertData(
+       await mydb.insertData(
             "INSERT INTO ${LocalDB.INVENTORY_TABLE}("
                 "${LocalDB.INVENTORY_PRODUCT_ID},"
                 "${LocalDB.INVENTORY_PRODUCT_NAME},"
@@ -67,7 +67,7 @@ Future<void> updateDatabse() async{
         snackPosition: SnackPosition.TOP,backgroundColor: Colors.red,colorText: Colors.white);
 
   }
-  if(progress.value ==100){
+  if(progress.value >=100){
     try{
       // Insert last update record
       final lastUpdateData = await MultiUseData.supabaseClient.from('LAST_UPDATE_TABLE')
