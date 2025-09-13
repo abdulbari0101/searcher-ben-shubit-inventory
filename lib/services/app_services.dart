@@ -7,8 +7,8 @@ class AppServices extends GetxService {
 // Initialize Supabase
 
     await Supabase.initialize(
-      url:  'https://fjfxezhxdgeaekocvbpp.supabase.co',
-      anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqZnhlemh4ZGdlYWVrb2N2YnBwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1MzYwNTcsImV4cCI6MjA2NzExMjA1N30.YueglhcgUBhO_4wNoa2GbCsES0Zoa15XmXujeqZMN3c',
+      url:  '',// TODO: Add your Supabase URL anonKey: '',// TODO: Add your Supabase Anon Key ); // Obtain shared preferences final SharedPreferences prefs = await Sh
+      anonKey: '',// TODO: Add your Supabase Anon Key prefs = await SharedPreferences.getInstance(); } static AppServices get to => Get.find(); } 
     );
 
     return this;
