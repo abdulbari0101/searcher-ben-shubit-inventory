@@ -20,7 +20,7 @@ class TAppTheme {
     outlinedButtonTheme: TOutlinedButtonTheme.lightOutlinedButtonTheme,
     inputDecorationTheme: TTextFormFieldTheme.lightInputDecorationTheme,
     textButtonTheme: TTextButtonTheme.lightTextButtonTheme,
-    cardTheme: TCardTheme.lightCardTheme,
+    cardTheme: TCardTheme.lightCardTheme.data,
 
   );
 
