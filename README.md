@@ -9,7 +9,7 @@
 
 A comprehensive **Inventory Management System** built with Flutter, designed to streamline inventory tracking, sales invoicing, and data synchronization.
 
-[Features](#-features) • [Screenshots](#-screenshots) • [Installation](#-installation) • [Tech Stack](#-tech-stack) • [Architecture](#-architecture)
+[Features](#-features) • [Screenshots](#-screenshots)
 
 </div>
 
@@ -66,4 +66,5 @@ A comprehensive **Inventory Management System** built with Flutter, designed to 
 [![WhatsApp](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/967783399063)
 
 ---
+
 
