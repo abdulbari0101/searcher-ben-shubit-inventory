@@ -47,7 +47,14 @@ A comprehensive **Inventory Management System** built with Flutter, designed to 
 
 ## 📱 Screenshots
 
-> _Add your app screenshots here_
+| Home | Inventory Items |
+|------|--------|
+| <img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/749d366a-8032-4f07-a71a-6aba48b0061b" /> | <img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/657511a6-a44f-4118-adbc-193ac2ef9481" />|
+
+| Report Output | Report Output |
+|------|--------|
+|<img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/087ea8d6-051f-461f-8dbd-33e980cf2ebd" /> | <img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/8ab321b0-eeed-4150-a245-4de28f209051" />|
+
 
 
 ---
@@ -59,3 +66,4 @@ A comprehensive **Inventory Management System** built with Flutter, designed to 
 [![WhatsApp](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/967783399063)
 
 ---
+
